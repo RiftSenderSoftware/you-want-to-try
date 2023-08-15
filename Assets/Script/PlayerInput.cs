@@ -22,6 +22,12 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // ищет объекты вокруг игрока
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            FindObject(gameObject.transform.position, 1);
+        }
+
         direction.x = Input.GetAxisRaw("Horizontal");
         direction.y = Input.GetAxisRaw("Vertical");
 
@@ -49,6 +55,13 @@ public class PlayerInput : MonoBehaviour
             if(im.itemPickUpBool == true) { im.itemHelpTextMeshProBool = false; }
             if(im.itemPickUpBool == false) { im.itemHelpTextMeshProBool = true; }
         }
+
+        if (collision.gameObject.tag == "Mine")
+        {
+            MineCraft mc = collision.gameObject.GetComponent<MineCraft>();
+            mc.mineInstantiateBool = true;
+           
+        }
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -67,6 +80,38 @@ public class PlayerInput : MonoBehaviour
             ItemManager im = other.gameObject.GetComponent<ItemManager>();
             im.itemHelpTextMeshProBool = false;
         }
+        if (other.gameObject.tag == "Mine")
+        {
+            MineCraft mc = other.gameObject.GetComponent<MineCraft>();
+            mc.mineHelpTextMeshProBool = false;
+        }
     }
 
+    public void FindObject(Vector2 center, float radius)
+    {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(center, radius);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.gameObject.tag == "Item")
+            {
+                ItemManager im = hitCollider.GetComponent<ItemManager>();
+                if (im.itemPickUpBool == true)
+                {
+                    im.itemPickUpBool = false;
+                    im.itemHelpTextMeshProBool = true;
+                    im.spriteRenderItem.sortingOrder = 1;
+                }
+                if (im.itemPickUpBool == false && im.itemHelpTextMeshPro.activeSelf == true)
+                {
+                    im.itemPickUpBool = true;
+                    im.itemHelpTextMeshProBool = false;
+                    im.spriteRenderItem.sortingOrder = 6;
+
+                    Debug.Log("" + hitCollider.gameObject.name);
+
+                }
+            }
+        }
+    }
 }

@@ -8,7 +8,7 @@ public class SellZone : MonoBehaviour
     public MoneyManager mm;
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Item"))
+        if (collision.gameObject.layer == 6)
         {
             Debug.Log("Destroy");
             mm.moneyCoutChange += 5;
@@ -17,7 +17,7 @@ public class SellZone : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Item"))
+        if (collision.gameObject.layer == 6)
         {
             Debug.Log("Destroy");
 

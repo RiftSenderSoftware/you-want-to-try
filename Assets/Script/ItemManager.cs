@@ -22,7 +22,7 @@ public class ItemManager : MonoBehaviour
     private void Update()
     {
         // Основная логика поднятия предмета
-
+        /*
         if (itemPickUpBool == true && Input.GetKeyDown(KeyCode.E))
         {
             itemPickUpBool = false;
@@ -34,7 +34,7 @@ public class ItemManager : MonoBehaviour
             itemPickUpBool = true;
             itemHelpTextMeshProBool = false;
             spriteRenderItem.sortingOrder = 6;
-        }
+        }*/
         // Физика движения объекта за игроком
         if (itemPickUpBool == true)
         {
